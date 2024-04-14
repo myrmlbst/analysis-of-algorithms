@@ -69,8 +69,71 @@ Since a stack is used, the first vertex to be stacked will be the last vertex
 to be popped.
 
 ## Topological Sort
-## Single Source Shortest Path Problem
-## Dijkstra's Algorithm
-## Floyd Warshall's Algorithm for the All Pairs Shortest Path Problem
-## Minimum Spanning Tree: Kruskal's Algorithm
-## Minimum Spanning Tree: Prim's Algorithm
+Topological sorts are used in real life applications such as course prerequisite structures in universities, instruction scheduling in computers, evaluating and executing function calls, etc.
+
+A topological sort of a Directed Acyclic Graph G is a linear ordering of all its vertices such that: 
+* If G contains an edge (U,V), then U appears before V in the ordering
+* For U -> V, we say we have out-degree from U and in-degree to V
+**Note:** This does not work on cyclic and undirected graphs.
+
+Every Directed Acyclic Graph has **at least** 1 topological sort, but the more there are edges in a graph, the more the number of dependencies, and the less the number of topological orders.
+
+### Systematic Approach for Topological Sort:
+- Find any vertex with no incoming edges (in-degree = 0)
+- Print this vertex
+- Remove the vertex along with its edges from the graph
+- Repeat the above steps until graph is empty
+```
+void Graph::topsort() { 
+  for (int counter=0; counter<NUM_VERTICES; counter++) { // running time = O(|V|)
+    Vertex v = findNewVertexOfIndegreeZero();   // running time = O(|V|)
+    if (v==NOT_A_VERTEX) {
+      throw CycleFoundException();
+    }
+    v.topNum = counter;
+    for each Vertex w adjacent to v {   // running time = O(|V|)+O(|E|)
+      w.indegree--;
+    }
+  }
+}
+// total running time = O (|V|^2+|E|)         
+```
+
+**This can be improved** by keeping all vertices of in-degree 0 in a data structure like a linked list, a sack, or a queue. So, we do the following:
+* Place all vertices of in-degree 0 in an initially empty queue Q
+* While Q non-empty, remove a vertex V, and increment the in-degrees of all vertices adjacent to V
+* Put a vertex on the queue as soon as its in-degree is 0
+> Note: The topological ordering is the order in which the vertices de-queue
+> 
+> Note: if “Q” was empty from the beginning, then we have a cycle
+
+Its implementation would look as such (in pseudocode):
+```
+void Graph::topsort() {
+  Queue<Vertex> q;
+  int counter=0;
+
+  q.makeEmpty;
+
+  for each Vertex v                     // running time = O(|V|)
+    if (v.indegree==0) {
+      q.enqueue(v);
+    }
+
+  while (!q.isEmpty()) {                // running time = O(|V|)
+    Vertex v = q.dequeue();
+    v.topNum = ++counter;               // assign next number
+
+    for each Vertex w adjacent to v     // running time = O(|E|)
+      if(--w.indegree==0) {
+        q.enqueue(w);
+      }
+  }
+
+  if (counter!=NUM_VERTICES) throw CycleFoundException();
+}
+
+// total running time = O(|V|+|E|)
+```
+
+## Single Source Shortest Path Problem (SSSP)
