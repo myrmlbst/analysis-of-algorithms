@@ -117,7 +117,7 @@ The Matrix Chain-Product: A = A<sub>1</sub> * A<sub>2</sub> * ... * A<sub>n</sub
 > The goal is to develop the optimal order for multiplying “n“ matrices. So, it is better to start with (B*C)*D
 
 ### Matrix Chain Product Algorithm
-#### Brute Force Approach
+### Brute Force Approach
 We try all possible ways to parenthesize A = A<sub>1</sub> * A<sub>2</sub> * ... * A<sub>n</sub> and calculate the number of operations required for each one. The order that results in the minimum number of operations is our final answer. **The running time** of this algorithm is _at least_ **exponential.** The principle of optimality applies to this problem, so we can use dynamic programming to find a solution.
 
 ### Optimized Approach
