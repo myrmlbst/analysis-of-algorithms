@@ -85,13 +85,13 @@ Every Directed Acyclic Graph has **at least** 1 topological sort, but the more t
 - Repeat the above steps until graph is empty
 ```
 void Graph::topsort() { 
-  for (int counter=0; counter<NUM_VERTICES; counter++) { // running time = O(|V|)
-    Vertex v = findNewVertexOfIndegreeZero();   // running time = O(|V|)
+  for (int counter=0; counter<NUM_VERTICES; counter++) {     // running time = O(|V|)
+    Vertex v = findNewVertexOfIndegreeZero();                // running time = O(|V|)
     if (v==NOT_A_VERTEX) {
       throw CycleFoundException();
     }
     v.topNum = counter;
-    for each Vertex w adjacent to v {   // running time = O(|V|)+O(|E|)
+    for each Vertex w adjacent to v {                        // running time = O(|V|)+O(|E|)
       w.indegree--;
     }
   }
