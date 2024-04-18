@@ -62,7 +62,49 @@ Merge sort is an algorithm that uses the divide and conquer approach to sort an 
 - Step 3: Sort the elements of each of these parts
 - Step 4: Combine them while sorting them until we end up with a sorted array
 
-**Recurrence Equation for Binary Search:**
+**Recurrence Equation for Merge Sort:**
 - The recurrence equation for binary search tree is ```T(n) = 2T(n/2) + n```
 - According to the master theorem, the time complexity is O(n.log(n))
 - If we follow the same steps mathematically, we get the same time complexity
+
+## Counting Inversions
+Counting inversions is an algorithm applied on arrays that returns number of pairs in an array that obey these rules:
+1. left element > right element
+2. index of left element < index of right element
+
+```Example:[1,3,5,2,4,6] => (3,2);(5,2);(5,4) => this array has 3 inversions```
+
+If an array is sorted, it has 0 inversions
+
+**Number of Inversions:** To figure out how many inversions an array can have, regardless of the value of its elements, we use ```n(n-1) / 2``` where n = length. 
+For example, in an array of 6 elements, ```6(6-1) / 2 = 15 inversions```
+
+**How it works:**
+We could simply use a nested for-loop with a running time of O(n<sub>2</sub>), but that is a brute force algorithm.
+It is preferable for us to use the divide and conquer approach Merge Sort.
+- Split the array into 2 and apply counting inversion on each side
+- 
+Run time for this algorithm is ```O(n.log(n))```
+
+## Quick Sort
+Quick sort is the most efficient sorting algorithm that falls under the 'divide and conquer' methodology.
+
+**How it works:**
+- Step 1: Choose a pivot element. This element coukd be any element in the array
+- Step 2: Split the array into 2 parts:
+  - Left has all the elements smaller than the pivot
+  - Right has all the elements larger tha the pivot
+- Step 3: Steps are repeated until each part has only 1 element
+
+**Note:** By default, when each part only has 1 element, the array would become sorted.
+
+**Recurrence Equation for Quick Sort:**
+- If an array is split in the middle:
+  ```T(n) = 2T(n/2) + O(n)``` where n/2 is the cost of dividing, and O(n) is the cost of positioning
+
+  Time Complexity = O(n.log(n))
+- If an array is presorted:
+  ```T(n) = T(n-1) + O(n)```
+
+  Time Complexity = O(n<sup>2</sup>)
+- If pivot is chosen randomly => Time Complexity = O(n.log(n))
