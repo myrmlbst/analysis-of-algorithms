@@ -80,9 +80,10 @@ A shortest path must be a simple path where no cycling occurs, meaning that a pa
 We define D<sup>k</sup>[i,j] to be the weight of the shortest path from V<sub>i</sub> to V<sub>j</sub> having considered all vertices between V<sub>1</sub> and V<sub>1</sub> as intermediates.
 
 But first, we construct the weight matrix D<sup>0</sup> (using adjacency matrix) according to the folowing:
-* D<sup>0</sup>[i,j] = w(i,j) if V<sub>i</sub> and V<sub>j</sub> have direct connection.
+* D<sup>0</sup>[i,j] = w(i,j) if V<sub>i</sub> and V<sub>j</sub> have direct connection
 * D<sup>0</sup>[i,j] = ∞ if they are not connected
 * D<sup>0</sup>[i,j] = 0
+  
 Then, we construct D<sup>1</sup> by using V<sub>1</sub> as an intermediate, then D<sup>2</sup> with V<sub>2</sub>, and so on.
 
 * The shortest path between V<sub>i</sub> and V<sub>j</sub> = D<sup>n</sup> = D<sup>|V|</sup>[i,j]
