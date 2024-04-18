@@ -83,7 +83,8 @@ For example, in an array of 6 elements, ```6(6-1) / 2 = 15 inversions```
 We could simply use a nested for-loop with a running time of O(n<sub>2</sub>), but that is a brute force algorithm.
 It is preferable for us to use the divide and conquer approach Merge Sort.
 - Split the array into 2 and apply counting inversion on each side
-- 
+
+
 Run time for this algorithm is ```O(n.log(n))```
 
 ## Quick Sort
