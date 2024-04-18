@@ -72,12 +72,12 @@ Counting inversions is an algorithm applied on arrays that returns number of pai
 1. left element > right element
 2. index of left element < index of right element
 
-```Example:[1,3,5,2,4,6] => (3,2);(5,2);(5,4) => this array has 3 inversions```
+```Example: [1,3,5,2,4,6] => (3,2);(5,2);(5,4) => this array has 3 inversions```
 
 If an array is sorted, it has 0 inversions
 
 **Number of Inversions:** To figure out how many inversions an array can have, regardless of the value of its elements, we use ```n(n-1) / 2``` where n = length. 
-For example, in an array of 6 elements, ```6(6-1) / 2 = 15 inversions```
+For example, in an array of 6 elements, ```6(6-1)/2 = 15 inversions```
 
 **How it works:**
 We could simply use a nested for-loop with a running time of O(n<sub>2</sub>), but that is a brute force algorithm.
@@ -109,3 +109,58 @@ Quick sort is the most efficient sorting algorithm that falls under the 'divide 
 
   Time Complexity = O(n<sup>2</sup>)
 - If pivot is chosen randomly => Time Complexity = O(n.log(n))
+
+## Maximum Subsequence Sum Problem
+If we are given an array of integers that could include negative values, how would we find a sequence in this array that would return to us the largest sum among all other sequences? We use the divide and conquer approach to find the maximum subsequence sum.
+
+**How it works:**
+- Step 1: Split array into 2 halves
+- Step 2: Find the maximum subsequence in the left half, then the right half
+- Step 3: Find the maximum subsequence of the entire array
+
+Imagine we have an array [2,3,-1,-8,4,11,5,-2,7,1,-3]. The maximum subsequence sum would be [4,11,5,-2,7,1].
+
+**Recurrence Equation for Maximum Subsequence Sum:**
+- T(n) = 2T(n/2) + O(n)
+- Time Complexity = O(nlog(n))
+
+## Strassen's Algorithm for Matrix Multiplication
+Strassen's Matrix Multiplication is an algorithm used to calculate 2 square matrices. Each matrix is of size nxn, so they can be represented by a 2D array.
+
+**How Matrix Multiplication works:**
+- Step 1: Ensure that both matrices are of the same dimensions
+- Step 2: Multiply the row in Matrix 1 by the column in Matrix 2, then add up these two products
+- Step 3: Repeat for all rows in the matrices
+```
+A1 A2  *  B1 B2  =  A1B1  A2B2
+
+A3 A4  *  B3 B4     A3B3  A4B4
+```
+Example:
+```
+A = 2 1 3    B = 5 6 2    AB = 23 23 17
+    3 4 2        7 8 4         47 52 28
+    1 2 0        2 1 3         19 22 10
+```
+
+**How Strassen's Algorithm for Matrix Multiplication works:**
+- _Divide and conquer approach:_ each matrix is divided into multiple submatrices until they're simplified to the point where we can solve them using simple formulae
+```
+Example:
+Let A = 1 3    B = 6 8
+        7 5        4 2
+
+=> M1 = (A1,1 + A2,2)(B1,2 + B2,2) = (1+5)(6+2) = 48
+=> M2 = (A2,1 + A2,2)(B1,1) = (7+5)(16) = 72
+=> M3 = (A1,1)(B1,2 - B2,2) = (1)(8-2) = 6
+=> M4 = (A2,2)(B2,2 - B2,1) = (5)(4-6) = 10
+
+Then, we use the following formula to find the results:
+C1,1 = M1+M4-M5+M7        C1,2 = M3+M5
+C2,1 = M2+M4              C1,2 = M2+M3-M2+M4
+...
+18  14
+62  66
+```
+**Recurrence Equation:**
+- T(n) = 7T(n/2) + cn<sup>2</sup>
