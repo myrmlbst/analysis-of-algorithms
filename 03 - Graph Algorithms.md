@@ -139,5 +139,3 @@ void Graph::topsort() {
 
 // total running time = O(|V|+|E|)
 ```
-
-## Single Source Shortest Path Problem (SSSP)
