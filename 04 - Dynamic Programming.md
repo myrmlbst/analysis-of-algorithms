@@ -123,6 +123,3 @@ We try all possible ways to parenthesize A = A<sub>1</sub> * A<sub>2</sub> * ...
 
 ### Optimized Approach
 We use a sequence of 2-D arrays. 
-
-## Optimal Binary Search Tree
-## The Traveling Salesperson Problem
