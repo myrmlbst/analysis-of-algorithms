@@ -164,3 +164,26 @@ C2,1 = M2+M4              C1,2 = M2+M3-M2+M4
 ```
 **Recurrence Equation:**
 - T(n) = 7T(n/2) + cn<sup>2</sup>
+
+## Arithmetic with Large Integers
+Large integers are numbers that are so big they exceed the hardware's capabilities of representing them. There are two ways to represent them:
+1- Straightforward method (using an array of int where each array represents a digit)
+2- Divide and Conquer method:
+  - Split the integer into 2 (one with ceiling, one with floor)
+  - Divide the integers until they're easy to multiply
+  - Formula: U = x.10<sup>n</sup>.y, where x=n/2 ceiling digits, y=n/2 floor digits, n=n/2 floor digits
+    Using this formula, we find the equation for each large integer.
+    ```
+    Example: 567,832 x 9,423,723
+    => 567,823 = 567 x 10^3 + 832
+    => 9,423,723 = 9423 x 10^3 + 723
+    => Therefore, (567 x 10^3 + 832) x (9423 x 10^3 + 723)
+    ```
+
+**Recurrence Equation:**
+- T(n) = 4T(n/2) + Cn
+- Time Complexity = O(n<sup>2</sup>)
+**Finding the Recurrence Equation from Code:**
+The general formula is ```T(n) = aT(n/b) + f(n)``` where n is the size of the input, a is the number of times the function calls itself, n/b is the size of each subproblem, and f(n) is the cost of what has to be done outside the subproblem (for example, during dividing and merging). Knowing that, we can now conclude the recurrence equation when reading code.
+
+Note that we should **not** use the divide and conquer approach when dealing with large integers if after dividing an instance of size n, the sizes of the sub-instances remain almost the same size OR when we have too many sub-instances.
