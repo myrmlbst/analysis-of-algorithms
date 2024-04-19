@@ -2,24 +2,24 @@
 ## Topic Overview:
 
 ## 01
-> What are algorithms & why do we use them
+> What are Algorithms & Why Do We Use Them
 > 
-> The growth rate function
+> The Growth Rate Function
 > 
-> Calculating the time complexity of an algorithm
+> Calculating the Time Complexity of an Algorithm
 > 
-> Calculating the time complexity of a loop
+> Calculating the Time Complexity of a Loop
 
 ## 02
 > The divide and conquer approach
 >
-> Master theorem for calculating the time complexity of D&C algorithm
+> Master Theorem for Calculating the Time Complexity of D&C Algorithm
 >
 > Binary Search Algorithm
 >
 > Merge Sort Algorithm
 >
-> Counting Inversion Algorithm
+> Counting Inversions
 >
 > Quick Sort Algorithm
 >
@@ -28,3 +28,18 @@
 > Strassen's Matrix Multiplication Algorithm
 >
 > Arithmetic with Large Integers
+
+## 03
+> Introduction to Graphs
+> 
+> Directed and Undirected Graphs
+>
+> Representation of Graphs in MEM
+>
+> BFS for Graph Traversal
+>
+> DFS for Graph Traversal
+>
+> Topological Sort
+>
+> Single Source Shortest Path Problem (SSSP)
