@@ -11,7 +11,7 @@
 > Calculating the Time Complexity of a Loop
 
 ## 02
-> The divide and conquer approach
+> The Divide and Conquer Approach
 >
 > Master Theorem for Calculating the Time Complexity of D&C Algorithm
 >
