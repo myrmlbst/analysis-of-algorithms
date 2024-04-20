@@ -43,3 +43,14 @@
 > Topological Sort
 >
 > Single Source Shortest Path Problem (SSSP)
+
+## 04
+> The Fibonacci Sequence
+>
+> The Binomial Coefficient
+>
+> Floyd Warshall's Algorithm for Shortest Paths
+>
+> Dynamic Programming for Optimization Problems
+>
+> Chained Matrix Multiplication
