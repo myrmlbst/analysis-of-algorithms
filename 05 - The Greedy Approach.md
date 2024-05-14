@@ -74,3 +74,26 @@ while (there are more coins && the instance is not solved) {
       the instance is solved;
 }
 ```
+
+As aforementioned, the Greedy Approach may not always yield the most optimal
+results. For example, in the scenario used for the Giving Change problem, if there existed a 12-cent coin and the target was 16 cents, the usage of this
+specific approach ends up with us returning **5 coins** ```(12+1+1+1+1 = 16 cents)```.
+
+And yet, the answer is optimizable to **3 coins** ```(10+5+1 = 16 cents)```.
+
+While it is true that this algorithm is not always the best use-case in certain scenarios, **it still yields optimal results for the following problems:**
+1. Minimum Spanning Trees
+2. Single Source Shortest Path - Dijkstra's Algorithm (SSSP)
+3. Scheduling
+4. Data Compression (Huffman Code)
+5. Fractional Knapsack Problem
+
+## 5.1: Minimum Spanning Trees
+To put it informally, the goal of the minimum spanning trees problem is to connect a collection of points/vertices together as 'cheaply' as possible. Consider the problem of removing edges from a connected, weighted, undirected graph G to form a sub-graph such that all the vertices remain connected, and the sum of the weights on the remaining edges is as small as possible.
+
+This kind of problem has numerous real-life applications:
+- Clustering (more on that later)
+- Networking and Telecommunications
+- Road Construction
+
+Among many others...
