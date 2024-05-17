@@ -1,4 +1,4 @@
-# Chapter 05 - The Greedy Approach
+# 05 - The Greedy Approach
 
 ## Overview
 The Greedy Algorithm, as the name suggests, takes the most that it can 
@@ -70,7 +70,7 @@ while (there are more coins && the instance is not solved) {
       add the coin to the change;
 
   // solution check
- if (the total value of the change equals the amount owed)
+  if (the total value of the change equals the amount owed)
       the instance is solved;
 }
 ```
@@ -88,7 +88,7 @@ While it is true that this algorithm is not always the best use-case in certain 
 4. Data Compression (Huffman Code)
 5. Fractional Knapsack Problem
 
-## 5.1: Minimum Spanning Trees
+## 5: Minimum Spanning Trees
 To put it informally, the goal of the minimum spanning trees problem is to connect a collection of points/vertices together as 'cheaply' as possible. Consider the problem of removing edges from a connected, weighted, undirected graph G to form a sub-graph such that all the vertices remain connected, and the sum of the weights on the remaining edges is as small as possible.
 
 This kind of problem has numerous real-life applications:
@@ -97,3 +97,58 @@ This kind of problem has numerous real-life applications:
 - Road Construction
 
 Among many others...
+
+_Recall that an undirected graph is called 'connected' if there is a path between every pair of vertices._ In an undirected graph, a path from a vertex to itself, which contains at least 3 vertices and in which all intermediate vertices are distinct, it is called a simple cycle. If an undirected graph contains no simple cycles, it is 'acyclic'.
+
+A **free tree** is an acyclic connected undirected graph (it has **no root** and **no cycle**, not even a simple cycle).
+
+### The name 'Minimum Spanning Tree' suggests the following:
+- _Minimum:_ The sum of weight of selected edges must be as small as possible
+- _Spanning:_ It overs all vertices and remains a connected graph
+- _Tree:_ Free Tree (0 cycles)
+
+**Few additional notes:**
+
+A spanning tree for a graph G is a connected subgraph that contains all the vertices in G and is a tree.
+
+A connected subgraph of minimum weight must be a spanning tree, but not every spanning tree has minimum weight.
+
+A spanning tree of minimum weight is called a minimum spanning tree (note the terminology used: 'a' minimum spanning tree suggests that there may be other trees avaliable).
+
+A graph can have more than one minimum spanning tree
+  - All have the same minimum amount
+  - But they have different edges that connect the vertices
+
+```A spanning Tree T for G = (V, E) has the same set of vertices V as G```.
+But the set of edges of T is a subset F of E.
+We denote a spanning tree T = (V, F) ; where 𝐹 ⊆𝐸
+i.e. F is a subset of E.
+
+Our problem is to find a subset F of E such that T = (V, F) is a minimum spanning tree for G.
+The brute force method of considering all spanning trees is worse than exponential in the worst case, it is more like a factorial.
+
+### Pseudocode for a high-level greedy algorithm:
+```
+// initialize set of edges to empty
+F = 0;
+
+while (instance is not solved) {
+   // selection procedure
+   select an edge according to some locally optimal procedure;
+
+   feasibility check
+   if (adding the edge to F does not create a cycle) {
+      add it;
+   }
+
+   // solution check
+   if (T = (V,F) is a spanning tree) {
+      instance is solved;
+   }
+}
+```
+
+That is why we can look into 2 different Greedy algorithms for this problem: Prim's algorithm and Kruskal's algorithm. Each one of them uses different locally optimal properties, but both of them always produce minimum spanning trees (i.e. both are optimal for their use cases).
+
+## 5.1: Prim's Algorithm for Minimum Spanning Trees
+## 5.2: Kruskal's Algorithm for Minimum Spanning Trees
