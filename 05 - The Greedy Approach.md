@@ -151,4 +151,97 @@ while (instance is not solved) {
 That is why we can look into 2 different Greedy algorithms for this problem: Prim's algorithm and Kruskal's algorithm. Each one of them uses different locally optimal properties, but both of them always produce minimum spanning trees (i.e. both are optimal for their use cases).
 
 ## 5.1: Prim's Algorithm for Minimum Spanning Trees
+To start, we create an empty list that tracks which nodes we have touched. The next step is to pick an arbitrary node which will be used as a starting point for the algorithm. Say we start with node V<sub>1</sub>: V<sub>1</sub> is immediately added to the set 'visited'.
+
+**Pseudocode:**
+```
+F = 0      // initialize set of edges to empty
+Y = {v1};  // initialize set of vertices to contains only the 1st one
+
+while (the instance is not solved) {
+   // selection procedure and feasibility check
+   select a vertex in V – Y that is nearest to Y;
+
+   add the vertex to Y;
+   add the edge to F;
+
+   // solution check
+   if (Y == V)
+      the instance is solved;
+}
+```
+Notes:
+- The selection procedure and feasibility check are done together because taking the new vertex from V – Y guarantees that a cycle is not created
+- If we pick up a different vertex than V1, we end up with a different Minimum Spanning Tree but _the cost remains the same_
+
+The previous algorithm is suitable for small graphs, but for the purposes of writing an algorithm that can be implemented using a computer language, we need to describe a step-by-step procedure. We use an adjacency matrix W to represent the weighted graph:
+
+- W[i][j] = weight on edge (if there is an edge between Vi and Vj)
+- W[i][j] = ∞ if there is no edge between Vi and Vj
+- W[i][j] = 0 if i = j
+
+We also maintain two arrays: ```nearest``` and ```distance``` (for i = 2 ... n)
+- nearest[i] = index of the vertex in Y nearest to Vi... Vi is not in Y -> Vi ∈ {V - Y}
+- distance[i] = weight on edge between Vi and the vertex indexed by nearest[i]
+
+At the start Y = {v1} -> nearest[vi] = 1 and distance[vi] = W[v1][vi]
+
+To determine which vertex to add to Y in each iteration, we compute the index for which distance[vi] is the smallest
+- Call the index: V<sub>near</sub>
+- Set distance[vnear] = -1 to mark that it was added to Y
+
+**Pseudocode:**
+```
+void prims ( int n, const number W[][], set_of_edges & F ) {
+   index i, vnear;
+   number min;
+   edge e;
+
+   index nearest[2..n];                  // because v1 belong to Y
+   number distance[2..n];                // because v1 belong to Y
+   F = 0;                                // F is the set of edges which is initially empty
+
+   for ( i = 2; i <= n; i++ ) {          // For all vertices in V-Y, initialize v1
+      nearest[i] = 1;                    // to be the nearest vertex in Y and
+      distance[i] = W[1][i];             // initialize the distance from Y to be the
+   }                                     // weight on the edge of v1
+
+   // Add all n-1 vertices to Y, replace solution check
+   repeat ( n – 1 times ) {
+      min = ∞;
+      for ( i = 2; i <= n; i++ ) {          // Check each vertex for being nearest to Y
+         if ( 0 <= distance[i] < min ) {    // and pick the vertex with the
+            min = distance[i];              // shortest distance
+            vnear = i;
+         }
+      }
+
+      e = edge connecting vertices indexed by vnear and nearest[vnear];
+      add e to F;
+      distance[vnear] = -1; // Add vertex indexed by vnear to Y
+
+      // For each vertex not in Y, update its distance from Y
+      for ( i = 2; i <= n; i++ ) {	
+         if ( W[i][vnear] < distance[i] ) {	
+            distance [i] = W[i][vnear];
+            nearest[i] = vnear;
+         }
+      }
+   }
+}
+
+```
+
+**The time complexity depends on the data structure used:**
+- Binary Heap, Adjaceny List: O(VlogV + ElogV)
+- Adjacency Matrix, Searching: O(v<sup>2</sup>)
+
+Prim’s algorithm produces a spanning tree, because Y = V at the end
+**But is it minimal?** Although greedy algorithms are easier to develop than dynamic programming algorithms, it is usually more difficult to determine whether or not the greedy algorithm produces an optimal solution.
+For a dynamic algorithm, we need only to show that the principle of optimality applies.
+On the other hand, for a greedy algorithm we usually need a formal proof:
+
+### Proof of Correctness
+
+
 ## 5.2: Kruskal's Algorithm for Minimum Spanning Trees
