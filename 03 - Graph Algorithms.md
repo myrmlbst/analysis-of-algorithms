@@ -94,7 +94,7 @@ void Graph::topsort() {
 
     v.topNum = counter;
 
-    for each Vertex w adjacent to v {                        // running time = O(|V|)+O(|E|)
+    for each Vertex w adjacent to v {                        // running time = O(|V|) + O(|E|)
       w.indegree--;
     }
   }
