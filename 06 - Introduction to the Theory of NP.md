@@ -77,12 +77,156 @@ This problem, along with the proof of intractability, can be found in Hopcroft a
 
 **Note:** 'Efficient' means that the problems cannot be solved in polynomial-time
 
-### 3 - Problems that Have not Been Proven to be Intractable, but for Which No Polynomial-Time Algorithms Have Never Been Found
+### 3 - Problems That Have Not Been Proven to be Intractable, But for Which No Polynomial-Time Algorithms Have Never Been Found
 Many problems belong to this category such as 0-1 Knapsack, the Sum-of Subsets, Traveling Salesperson, m-Coloring, Hamiltonian Circuits, etc.
 There is a close and interesting relationship among many of the problems in this category.
 _The development of this relationship is the purpose of the next section._
 
 ## The Theory of NP
+It would be more convenient to develop the theory of NP by restricting ourselves to decision-problems only where the output of a decision problem is a simple “yes” or “no” answer. In general, each optimization problem has a corresponding decision problem. For example:
+The Traveling Salesperson Decision problem is to determine, for a given positive number "d", whether there is a tour having total weight no greater than "d".
+This problem has the same parameters as the Traveling Salesperson Optimization problem, plus the additional parameter "d".
 
+For the Traveling Salesperson problem, we have not found a polynomial-time algorithms for either:
+1. The decision problems
+2. The optimization problems
+   
+If we could find a polynomial-time algorithm for the optimization problem,
+then we would also have a polynomial-time algorithm for the corresponding decision problem.
+That is because a solution to an optimization problem produces a solution to the corresponding decision problem.
 
+### The Sets S and P
+```P```
+“P" is the set of all decision problems that can be solved by a polynomial-time algorithms. All decision problems for which we have found a polynomial-time algorithms are certainly in the set "P".
+For example, searching an array:
+- The problem of determining whether a key is present in an array
+- The problem of determining whether a key is present in a sorted array
 
+And other decision problems corresponding to several optimization problems we have seen are in the set "P"
+
+_Can a decision problem for which we have not found a polynomial-time algorithm also be in "P"?_
+An example is the Traveling Salesperson problem: The answer is un-known for now, and it is the 1 million dollar question of whether P = NP.
+
+Even though no one has ever created a polynomial-time algorithm that solves this problem, no one has ever proven that it cannot be solved with a polynomial time algorithm.
+**Therefore, it could possibly be in the set "P".**
+To know that a decision problem is not in "P", we have to prove that it is not possible to develop a polynomial-time algorithm for this decision problem
+There are relatively few decision problems which we know are not in “P"
+
+```NP```
+NP represents the class of decision problems which can be solved in polynomial time by a non-deterministic model of computation.
+A non-deterministic model can make the right guesses on every move and race towards the solution much faster than a deterministic model.
+i.e. A problem is solvable in polynomial-time on a non-deterministic model of computation
+
+A deterministic machine, at each point in time, executes an instruction.
+Depending on the outcome of executing the instruction, it then executes some next instruction, which is unique, and so on…
+
+A non-deterministic machine, on the other hand, has a choice of next steps. It is free to choose any one that it wishes.
+For example, it can choose a next step that leads to the best solution for the problem.
+It may also produce a “nonsense” solution.
+
+>In set “P” we find a solution in polynomial-time
+>
+>In set “NP” we verify a solution in polynomial-time
+
+Suppose someone claimed to know that the answer to some instance of the decision problem version of TSP was “yes”.
+That is, the person said that, for some graph and number "d", a tour existed in which the total weight was no greater than "d".
+It would be reasonable for us to ask the person to “prove” this claim by actually producing a tour with a total weight no greater than "d".
+If the person then produced something, we could write an algorithm to verify whether what he produced was a tour with weight no greater than "d".
+The input to the algorithm is:
+- The graph "G“
+- The distance "d“ and
+- The string "S" that is claimed to be a tour with weight no greater than “d”
+
+```
+bool verify (weighted_digraph G, number d, claimed_tour S) {
+   if (S is a tour && the total weight of the edges in S is <= d)
+      return true;
+   else
+      return false;
+}
+```
+
+Returning false means only that this claimed tour is not a tour with total weight no greater than “d” and **_does not mean that such a tour does not exist_**, because there might be a different tour with total weight no greater than “d”.
+It is not hard to prove that this verification algorithm runs in polynomial time.
+
+To decide if a problem is in the set NP we need 2 things:
+- A non-deterministic algorithm that solves a problem in polynomial-time
+- A deterministic algorithm that verifies a claimed solution in polynomial-time
+
+It is this property of polynomial-time verifiability that is possessed by the problems in the set NP.
+This does not mean that these problems can necessarily be solved in polynomial time:
+When we verify that a candidate tour has total weight no greater than "d", we are not including the time it took to find that tour.
+We are only saying that the verification part takes polynomial time.
+
+**A non-deterministic algorithm is composed of two separate stages:**
+- Guessing Stage:	non-deterministic in polynomial-time
+- Verification Stage: deterministic also in polynomial-time
+
+**Guessing Stage – Non-Deterministic:**
+
+Given an instance of a problem:
+This stage simply produces some string "S“ in a non-deterministic manner.
+The string can be thought of as a guess at the solution.
+However, it could just be a string of nonsense.
+
+**Verification Stage – Deterministic:**
+
+The instance and the string "S" are the input to this stage.
+This stage then proceeds in an ordinary deterministic manner.
+Either: 
+- Halting with an output of “true” OR
+- Halting with an output of “false” OR
+- Not halting at all
+
+## NP Complete Problems
+The following problems may not appear to have the same difficulty:
+- The dynamic programming algorithm for the TSP is worst-case theta(n<sup>2</sup>2<sup>n</sup>)
+- The dynamic programming algorithm for the 0–1 Knapsack problem is worst-case theta(min(2<sup>n</sup>, nW))
+- The state space tree in the branch-and-bound algorithm for the TSP has (n – 1)! leaves
+- The state space tree in the branch-and-bound algorithm for the 0 – 1 Knapsack problem has 2n + 1 nodes
+
+It may seem that the 0 – 1 Knapsack problem is inherently easier than the Traveling Salesperson problem, however we show that these two problems, and thousands of other problems, are all equivalent in that if one is in "P", they must all be in "P".
+**These problems are called NP-complete.**
+
+Suppose we want to solve decision problem "A", and we have an algorithm that solves decision problem "B". Suppose further that we can write an algorithm that creates an instance "y" of problem "B" from every instance "x" of problem "A" such that an algorithm for problem "B" answers “yes” for "x".
+Such an algorithm is called a transformation algorithm.
+
+- If there exists a polynomial-time transformation algorithm from decision problem "A" to decision problem "B", we say that problem "A" reduces to problem "B"
+- If decision problem "B" is in "P" and decision problem "A" reduces to "B", then "A" is also in "P"
+
+A problem "B" is called NP-Complete if both of the following are true:
+- "B" is in NP
+- For every other problem "A" in NP, A reduces to "B"
+
+If we could show that any NP-complete problem is in "P", we could conclude that P = NP
+
+In 1971 Stephen Cook managed to prove that CNF-Satisfiability is NP-complete.
+The proof does not consist of reducing every problem in NP individually to CNF Satisfiability; instead it exploits common properties of problems in NP to show that any problem in this set must reduce to CNF-Satisfiability
+
+## Theorem
+A problem "C" is NP-complete if both of the following are true:
+- "C" is in NP
+- For some other NP-complete problem "B", "B" reduces to "C"
+
+**Examples of NP-Complete Problems:**
+1. Clique Decision Problem:
+Given a graph and an integer "k", are there "k" vertices in the graph, which are all adjacent to each other?
+CNF-Satisfiability reduces to Clique Decision Problem
+
+2. Hamiltonian Circuits Decision Problem because CNF-Satisfiability reduces to it
+3. TSP decision problem (undirected) as Hamiltonian Circuits Decision Problem reduces to it
+4. TSP decision problem as TSP decision problem (undirected) reduces to it
+
+**How does the set of NP-complete problems fit into the picture?**
+
+First, by definition, it is a subset of NP.
+Therefore, Presburger Arithmetic, the Halting problem, and any other decision problems that are not in NP are not NP-complete.
+A decision problem that is in NP and is not NP-complete is the trivial decision problem that answers “yes” for all instances (or answers “no” for all instances).
+This problem is not NP-complete because it is not possible to transform a nontrivial decision problem to it.
+
+If P ≠ NP, then P ∩ NP-Complete = Ჶ
+
+This is so because, if some problem in "P" were NP-complete, this would imply that we could solve any problem in NP in polynomial time.
+
+Theorem:
+If P ≠ NP, the set NP – (P 𝖴 NP-Complete) is not empty
