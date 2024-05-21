@@ -136,7 +136,7 @@ while (instance is not solved) {
    // selection procedure
    select an edge according to some locally optimal procedure;
 
-   feasibility check
+   // feasibility check
    if (adding the edge to F does not create a cycle) {
       add it;
    }
@@ -245,3 +245,166 @@ On the other hand, for a greedy algorithm we usually need a formal proof:
 
 
 ## 5.2: Kruskal's Algorithm for Minimum Spanning Trees
+Kruskal’s algorithm for the Minimum Spanning Tree problem starts by creating disjoint subsets of V, one for each vertex and containing only that vertex.
+It then inspects the edges according to non-decreasing weight;
+If an edge connects two vertices in disjoint subsets, then the edge is added, and the subsets are merged into one set.
+If an edge connects two vertices in the same subset, then the edge is rejected.
+This process is repeated until all the subsets are merged into one set.
+
+Pseudocode:
+```
+F = 0 // initialize set of edges to empty
+
+create disjoint subsets of V, one for each vertex and containing only that vertex;
+
+sort the edges in E in non-decreasing order;
+
+while (the instance is not solved) {
+   // selection procedure, based ascending order
+   select next edge;
+
+   // feasibility check – check if we have a cycle
+   if (the edge connects two vertices in disjoint subsets) {
+      merge the subsets;
+      add the edge to F;
+   }
+
+   // solution check
+   if (all the subsets are merged) 
+      the instance is solved;
+}
+```
+
+To write a formal version of Kruskal’s algorithm, we need a disjoint set abstract data type.
+We use the Union Find data structure.
+
+**Problem:** Determine a minimum spanning tree
+
+**Inputs:**
+- integer n >= 2 (n = number of vertices), and positive integer m >= 1 (m = number of edges).
+- A connected, weighted, undirected graph containing “n” vertices and “m” edges
+- The graph is represented by a set “E” that contains all the edges in the graph along with their weights
+
+**Outputs:**
+“F”, a set of edges in a minimum spanning tree, 𝐹⊆𝐸
+
+Formal version of Kruskal's ALgorithm:
+```
+void kruskal (int n, int m, set_of_edges E, set_of_edges & F) {
+  index i, j;
+  set_pointer p, q;
+  edge e;
+  sort the m edge in E by weight in ascending order;
+  F = 0;
+  initial (n);                                         // initialize n disjoint subsets
+
+  while (number of edges in F is less than n – 1) {
+    e = edge with least weight not yet considered;
+    i, j = indices of vertices connected by e;
+    p = find (i);                                      // add vertex vi to the set “p”
+    q = find (j);                                      // add vertex vj to the set “q”
+
+    // if the sets “p” and “q” are not equal
+    if ( ! equal(p, q) ) {
+      merge (p, q);
+      add e to F;
+    }
+  }
+}
+```
+_Running Times for the Above Code:_
+- Running time for sorting the edges: O(m log m)
+- Running time for while loop: O(n)
+- Running time for find & merge: O(log n)
+- Running time for the entire loop is: O(n log n)
+- Total running time: O(m log m) + O (n log n)
+
+**The running time of this algorithm is governed by the sorting of the edges -> O(m log m)**
+because in general, the number of edges is greater than the number vertices
+Running time inside the "while" varies depending on Union Find implementation.
+The running Kruskal’s algorithm is often expressed as O(m log n), because in the worst case m = O(n2).
+Also, it is sometimes expressed as: O(|E|log|V|).
+The Proof of correctness is left for further reading but is very similar to the proof of Prim’s algorithm
+
+## Prim's vs Kruskal's Algorithms
+Running times of Prim’s and Kruskal’s algorithms are:
+- Prim’s: 2(n-1)(n-1) = O(n<sup>2</sup>)
+- Kruskal’s: O(mlog(n))
+
+For a dense graph, the number of edges “m” is near n<sup>2</sup>, then Kruskal algorithm is approximately equal to: O(n<sup>2</sup>log(n)).
+For a graph whose number of edges "m" is near the low end of these limits, i.e. a sparse graph, then Kruskal’s algorithm is faster.
+For a graph whose number of edges "m" is near the high end of these limits, i.e. a dense graph, then Prim’s algorithm is faster.
+
+## Dijkstra's Algorithm for Single-Source Shortest Path
+In previous chapters, we developed a dynamic programming algorithm for determining the shortest paths from each vertex to all other vertices in a weighted, directed path: Floyd’s algorithm for all pairs shortest paths.
+The running time was O(n<sup>3</sup>), which was considered as polynomial.
+We also developed an algorithm to solve the single source shortest path for unweighted directed graph:
+We used Breadth First Search to solve the problem.
+The running time was: O(|V|+|E|).
+_In this chapter, we'll develop a greedy algorithm to solve the single source shortest path problem for weighted directed graph._
+
+**Problem Statement:**
+Given as input a weighted directed graph G = (V, E) and a distinguished vertex “S”, find the shortest path from “S” to every other vertex in G.
+
+We previously used BFS to solve SSSP problem in an unweighted graph, i.e. the weight of all edges = 1. This method does not translate properly here as it does not scale. That is why we use Dijkstra's algorithm:
+```
+Y = {v1};
+F = 0;
+
+while (the instance is not solved) {
+   // selection procedure and feasibility check
+   select a vertex v from V – Y, that has a shortest path from v1,
+   using only vertices in Y as intermediates;
+
+   add the new vertex v to set Y;
+   add the edge (on the shortest path) that touches v to set F;
+
+   if (Y == V)
+      the instance is solved; // solution check
+}
+```
+**Note that Dijkstra's algorithm fails for graphs with negative costs.** For non-negative edge lengths, Dijkstra’s algorithm always produces shortest paths.
+The proof uses an induction argument like the one used to prove that Prim’s algorithm always produces a minimum spanning tree.
+For graphs with negative edge lengths, use Bellman Ford’s dynamic programming algorithm to solve the SSSP problem.
+
+**Running Time:**
+
+Naïve implementation runs in: O(n*m)
+- n - 1 iterations with O(m) work in every iteration
+- And for a dense graph m=n<sup>2</sup>.
+- So the running time would be: O(n<sup>3</sup>), which is equivalent to Floyd’s Algorithm.
+
+Remember Floyd’s algorithm is for All Pairs Shortest Path, and Dijkstra is for Single Source Shortest Path.
+
+**We need to make a proper choice of data structure as we try to solve the SSSP problem.**
+We can do better by using a min heap data structure:
+```
+s.dist = 0                       // set source vertex distance to 0 –> Y = {s}
+for every vertex v in V – {s}    // V – {s} or V – Y is all other vertices
+v.dist = INF                     // set the distance of all other vertices to INF
+
+// use build heap according to the distances of vertices to set Y; the cost is O(n) or O(|V|)
+Min_heap Q(V)	
+																					
+// as long as there are vertices in the heap, perform a delete min operation;
+// i.e. delete item with the highest priority (with the shortest distance from s);
+// then consider the vertices that are adjacent to the item that was just removed
+
+while ( ! Q.isEmpty() ) {       // cost is: O(n-1)
+   Vertex u
+   Q.deleteMin(u)               // cost for delete min: log(n)
+                                // we have n vertices  total cost is n log(n)
+
+   // can I use u as intermediate between s & v; if yes, then change the distance
+   for every v adjacent to u {	                 // cost is “m” iterations, “m” is nb. Of edges
+      if ( v is in Q ) {                         // check if v is still in the queue, if yes then
+         if ( u.dist + w(u, v) < v.dist ) {      // check can I improve its dist.
+            v.dist = u.dist + w(u, v)            // if yes, update the distance to v
+	          v.path = u												   // set the path to vertex v through u
+         }
+      }
+   }
+}
+```
+
+
